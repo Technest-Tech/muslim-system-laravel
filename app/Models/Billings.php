@@ -15,4 +15,14 @@ class Billings extends Model
     {
         return $this->belongsTo(User::class,'student_id');
     }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class,'teacher_id');
+    }
+
+    public function lesson()
+    {
+        return $this->belongsTo(Lessons::class,'lesson_id');
+    }
 }

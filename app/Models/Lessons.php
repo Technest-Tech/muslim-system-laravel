@@ -9,7 +9,7 @@ class Lessons extends Model
 {
     use HasFactory;
     protected $table = 'lessons';
-    protected $fillable = ['lesson_name','course_id','teacher_id','student_id','lesson_date','lesson_duration'];
+    protected $fillable = ['lesson_name','course_id','teacher_id','student_id','lesson_date','start_time','end_time','lesson_duration','user_level','duty_image','duty_text'];
 
     public function course()
     {
@@ -18,5 +18,9 @@ class Lessons extends Model
     public function student()
     {
         return $this->belongsTo(User::class, 'student_id');
+    }
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
     }
 }

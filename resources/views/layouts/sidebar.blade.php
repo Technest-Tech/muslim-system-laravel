@@ -1,7 +1,7 @@
 <!-- Sidebar START -->
 <style>
     .bg-red {
-        background-color: #281300 !important;
+        background-color: #05303f !important;
     }
 </style>
 <nav class="navbar sidebar navbar-expand-xl navbar-dark bg-red">
@@ -9,7 +9,7 @@
     <!-- Navbar brand for xl START -->
     <div class="d-flex align-items-center">
         <a class="navbar-brand" href="{{url('/')}}">
-            <h4 style="font-family: Calibri;font-weight: bold;color: whitesmoke">أكاديمية الاحسان</h4>
+            <h4 style="font-family: Calibri;font-weight: bold;color: whitesmoke"> أكاديمية مسلم </h4>
         </a>
     </div>
     <!-- Navbar brand for xl END -->
@@ -36,9 +36,13 @@
                     <li class="nav-item"> <a class="nav-link @if(request()->is('billings')) active @endif" href="{{route('billings.index',1)}}"><i class="fas fa-dollar-sign fa-fw me-2"></i>الفواتير </a></li>
                     <li class="nav-item"> <a class="nav-link @if(request()->is('salaries')) active @endif" href="{{route('salaries.index',1)}}"><i class="fas fa-file fa-fw me-2"></i>المرتبات </a></li>
 
+                    <li class="nav-item"> <a class="nav-link @if(request()->is('custom_billings')) active @endif" href="{{route('custom_billings.index')}}"><i class="fas fa-file fa-fw me-2"></i>الفواتيير اليدوية </a></li>
+
+                    <li class="nav-item"> <a class="nav-link @if(request()->is('duties')) active @endif" href="{{route('duties.index')}}"><i class="fas fa-tasks fa-fw me-2"></i>الواجبات </a></li>
+
+                    <li class="nav-item"> <a class="nav-link @if(request()->is('admin/calendar')) active @endif" href="{{route('admin.calendar.index')}}"><i class="fas fa-calendar fa-fw me-2"></i>تقويم الحصص </a></li>
 
                     <li class="nav-item"> <a class="nav-link" href="{{route('logout')}}"><i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج</a></li>
-
 
                 </ul>
                 <!-- Sidebar menu end -->
@@ -47,12 +51,15 @@
 
                     <!-- Menu item 1 -->
                     <li class="nav-item"><a href="{{url('/')}}" class="nav-link @if(request()->is('/')) active @endif"><i class="bi bi-house fa-fw me-2"></i>صفحة الاحصائيات</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-house fa-fw me-2"></i> اجمالي ساعات هذا الشهر    {{\App\Models\Lessons::where('teacher_id',auth()->user()->id)->whereMonth('created_at', \Carbon\Carbon::now()->month)->sum('lesson_duration')}} </a></li>
 
                     <!-- Title -->
                     <li class="nav-item ms-2 my-2">الصفحات</li>
 
                     <!-- Menu item 3 -->
-                    <li class="nav-item"> <a class="nav-link @if(request()->is('courses')) active @endif" href="{{route('courses.index')}}"><i class="fas fa-laptop fa-fw me-2"></i>الدورات</a></li>
+                    <li class="nav-item"> <a class="nav-link @if(request()->is('courses')) active @endif" href="{{route('courses.index')}}"><i class="fas fa-laptop fa-fw me-2"></i>الحصص</a></li>
+
+                    <li class="nav-item"> <a class="nav-link @if(request()->is('teacher/calendar')) active @endif" href="{{route('teacher.calendar.index')}}"><i class="fas fa-calendar fa-fw me-2"></i>تقويم الحصص</a></li>
 
                     <li class="nav-item"> <a class="nav-link" href="{{route('logout')}}"><i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج</a></li>
 

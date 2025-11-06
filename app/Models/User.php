@@ -27,7 +27,7 @@ class User extends Authenticatable
         'cad' => 'CAD',
     ];
 
-   protected $fillable = ['user_name', 'email', 'password','user_type','whatsapp_number','hour_price','currency'];
+   protected $fillable = ['user_name', 'email', 'password','user_type','whatsapp_number','hour_price','currency','user_level'];
     protected $hidden = [
         'password',
         'remember_token',

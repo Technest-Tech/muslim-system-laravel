@@ -68,7 +68,30 @@
                                   <!-- dropdown button -->
                                   <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare2">
                                       <a class="dropdown-item" href="#" onclick="openEditModal('{{ $student->id }}', '{{ $student->user_name }}', '{{ $student->whatsapp_number }}', '{{ $student->hour_price }}', '{{ $student->currency }}')"><i class="bi bi-pencil-square fa-fw me-2"></i>تعديل</a>
-                                      <li><a class="dropdown-item" href="{{route('students.delete',$student->id)}}"><i class="bi bi-trash fa-fw me-2"></i>حذف</a></li>
+                                      <li>
+                                          <a class="dropdown-item" href="javascript:void(0);" onclick="confirmDelete('{{route('students.delete',$student->id)}}')">
+                                              <i class="bi bi-trash fa-fw me-2"></i>حذف
+                                          </a>
+                                      </li>
+
+                                      <script>
+                                          function confirmDelete(url) {
+                                              Swal.fire({
+                                                  title: 'هل أنت متأكد؟',
+                                                  text: "أنت على وشك حذف الطالب!",
+                                                  icon: 'warning',
+                                                  showCancelButton: true,
+                                                  confirmButtonColor: '#3085d6',
+                                                  cancelButtonColor: '#d33',
+                                                  confirmButtonText: 'نعم، احذفه!',
+                                                  cancelButtonText: 'إلغاء'
+                                              }).then((result) => {
+                                                  if (result.isConfirmed) {
+                                                      window.location.href = url;
+                                                  }
+                                              })
+                                          }
+                                      </script>
                                   </ul>
                               </div>
                           </div><br>

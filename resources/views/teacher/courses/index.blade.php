@@ -9,11 +9,11 @@
             <div class="col-6">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#addCourseModal">
-                    <i class="fas fa-plus-square me-3"></i> اضافه دورة
+                    <i class="fas fa-plus-square me-3"></i> اضافه طالب
                 </button>
             </div>
             <div class="col-6 mb-3">
-                <h1 class="h3 mb-2 mb-sm-0 text-end">الدورات</h1>
+                <h1 class="h3 mb-2 mb-sm-0 text-end">الحصص</h1>
             </div>
 
         </div>
@@ -25,12 +25,12 @@
                     <div class="card shadow-lg border-0 rounded-lg">
                         <div class="card-body">
                             <h5 class="card-title">{{$course->course_name}}</h5>
-                            <p class="card-text">{{$course->student->user_name}}</p>
-                            <a href="{{route('course.lessons',['month'=>1,'course_id'=>$course->id])}}" class="btn btn-primary">دروس هذه الدورة</a>
+                            <p class="card-text">{{ $course->student ? $course->student->user_name : 'No student assigned' }}</p>
+                            <a href="{{route('course.lessons',['month'=>date('m'),'course_id'=>$course->id])}}" class="btn btn-primary">  التقارير الخاصة بالطالب</a>
                         </div>
                     </div>
                 </div>
-            @endforeach
+          @endforeach
         </div>
 
 
@@ -42,14 +42,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addCourseModalLabel">اضافه دورة</h5>
+                    <h5 class="modal-title" id="addCourseModalLabel">اضافه طالب</h5>
                 </div>
                 <form action="{{route('courses.store')}}" method="post">
                     @csrf
                 <div class="modal-body">
 
                        <div class="mb-3">
-                           <label for="courseName" class="form-label">اسم الدورة</label>
+                           <label for="courseName" class="form-label">اسم الحصة</label>
                            <input type="text" class="form-control" id="courseName" name="course_name">
                        </div>
 

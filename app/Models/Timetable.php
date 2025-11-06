@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Timetable extends Model
+{
+    use HasFactory;
+
+    protected $table = 'timetable';
+    
+    protected $fillable = [
+        'student_id',
+        'teacher_id',
+        'day',
+        'start_time',
+        'end_time',
+        'start_date',
+        'end_date',
+        'lesson_name',
+    ];
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+}

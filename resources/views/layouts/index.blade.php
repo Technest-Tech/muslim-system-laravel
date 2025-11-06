@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <title>أكاديمية الاحسان</title>
-
+    <title> أكاديمية مسلم  </title>
     <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Webestica.com">
-    <meta name="description" content="Eduport- LMS, Education and Course Theme">
+    <meta name="description" content=" أكاديمية مسلم  ">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('logo.jpg')}}">
+    <link rel="shortcut icon" href="{{asset('muslim.png')}}">
 
     <!-- Google Font -->
     <link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/apexcharts/css/apexcharts.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/overlay-scrollbar/css/OverlayScrollbars.min.css')}}">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Theme CSS -->
     <link id="style-switch" rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
@@ -29,6 +30,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+
+    @stack('styles')
 
     <style>
         @charset "UTF-8";
@@ -21730,6 +21733,7 @@
 <!-- Template Functions -->
 <script src="{{asset('assets/js/functions.js')}}"></script>
 
+@stack('scripts')
 
 </body>
 </html>

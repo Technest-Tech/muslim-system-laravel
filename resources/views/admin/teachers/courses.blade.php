@@ -9,25 +9,43 @@
             <div class="col-6">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#addCourseModal">
-                    <i class="fas fa-plus-square me-3"></i> اضافه دورة
+                    <i class="fas fa-plus-square me-3"></i> اضافه حصة
                 </button>
             </div>
             <div class="col-6 mb-3">
-                <h1 class="h3 mb-2 mb-sm-0 text-end">الدورات</h1>
+                <h1 class="h3 mb-2 mb-sm-0 text-end">الحصص</h1>
             </div>
 
         </div>
 
         <hr>
         <div class="row justify-content-center" style="direction: rtl">
-            @foreach($courses as $course)
+           @foreach($courses as $course)
                 <div class="col-md-2 p-2">
                     <div class="card shadow-lg border-0 rounded-lg">
                         <div class="card-body">
                             <h5 class="card-title">{{$course->course_name}}</h5>
-                            <p class="card-text">{{$course->student->user_name}}</p>
-                            <a href="{{route('teacher.course.lessons',['month'=>1,'course_id'=>$course->id])}}" class="btn btn-primary">دروس هذه الدورة</a>
-                            <a href="#" class="btn btn-danger deleteButton" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-url="{{route('delete.teacher.course',$course->id)}}">حذف !!!!!</a>
+                            <p class="card-text">{{$course->student ? $course->student->user_name : 'No student assigned'}}</p>
+                            <a href="{{route('teacher.course.lessons',['month'=>1,'course_id'=>$course->id])}}" class="btn btn-primary">دروس هذه الحصة</a>
+                            <a href="javascript:void(0);" class="btn btn-danger deleteButton" onclick="confirmDelete('{{route('delete.teacher.course',$course->id)}}')">حذف !!!!!</a>
+                            <script>
+                                function confirmDelete(url) {
+                                    Swal.fire({
+                                        title: 'هل أنت متأكد؟',
+                                        text: "أنت على وشك حذف الحصة!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'نعم، احذفه!',
+                                        cancelButtonText: 'إلغاء'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.href = url;
+                                        }
+                                    })
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -73,14 +91,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addCourseModalLabel">اضافه دورة</h5>
+                    <h5 class="modal-title" id="addCourseModalLabel">اضافه حصة</h5>
                 </div>
                 <form action="{{route('teacher.courses.store',$id)}}" method="post">
                     @csrf
                 <div class="modal-body">
 
                        <div class="mb-3">
-                           <label for="courseName" class="form-label">اسم الدورة</label>
+                           <label for="courseName" class="form-label">اسم الحصة</label>
                            <input type="text" class="form-control" id="courseName" name="course_name">
                        </div>
 

@@ -42,6 +42,10 @@
                                 <input type="email" name="email" class="form-control" id="exampleInputEmail1" value="{{$teacher->email}}" aria-describedby="emailHelp" placeholder="ادخل الايميل">
                             </div> <br>
 
+                            <div class="form-group">
+                                <input type="text" name="hour_price" class="form-control" id="exampleInputEmail1" value="{{$teacher->hour_price ?? ''}}" aria-describedby="emailHelp" placeholder="سعر الساعة ">
+                            </div> <br>
+
                             <button type="submit" class="btn btn-primary"> تعديل</button>
                         </form>
                     </div>

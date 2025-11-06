@@ -9,11 +9,11 @@
             <div class="col-6">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#addCourseModal">
-                    <i class="fas fa-plus-square me-3"></i>اضافة درس
+                    <i class="fas fa-plus-square me-3"></i>اضافة تقرير
                 </button>
             </div>
             <div class="col-6 mb-3">
-                <h1 class="h3 mb-2 mb-sm-0 text-end">الدروس</h1>
+                <h1 class="h3 mb-2 mb-sm-0 text-end">التقارير</h1>
             </div>
 
         </div>
@@ -46,16 +46,28 @@
                                 اسم الطالب :
                                 {{$lesson->student->user_name}}
                             </p>
-                            <p class="card-text">اسم الدورة :
+                            <p class="card-text">اسم الحصة :
                                 {{$lesson->course->course_name}}
                             </p>
-                            <p class="card-text">تاريخ الدرس :
+                            <p class="card-text">تاريخ التقرير :
                                 {{ date('d-m-Y', strtotime($lesson->lesson_date)) }}
                             </p>
                             <p class="card-text">
-                                مدة الدرس :
+                                مدة التقرير :
                                 {{$lesson->lesson_duration}}
                                 ساعة
+                            </p>
+                            <p class="card-text">
+                                مستوي الطالب  :
+                                @if($lesson->user_level == 0)
+                                    جيد
+                                @elseif($lesson->user_level == 1)
+                                    جيد جدا
+                                @elseif($lesson->user_level == 2)
+                                    ممتاز
+                                @else
+                                    غير معروف
+                                @endif
                             </p>
                         </div>
                     </div>
@@ -72,15 +84,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addCourseModalLabel">اضافه درس</h5>
+                    <h5 class="modal-title" id="addCourseModalLabel">اضافه تقرير</h5>
                 </div>
-                <form action="{{route('course.lessons.store',['month'=>$month,'course_id'=>$course_id])}}" method="post">
+                <form action="{{route('course.lessons.store',['month'=>$month,'course_id'=>$course_id])}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
 
                         <div class="mb-3">
-                            <label for="lesson_name" class="form-label">اسم الدرس</label>
-                            <input type="text" class="form-control" id="lesson_name" name="lesson_name" required>
+                            <label for="lesson_name" class="form-label">اسم التقرير</label>
+                            <textarea class="form-control" id="lesson_name" rows="5" name="lesson_name" required></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -89,9 +101,30 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="lesson_duration" class="form-label">مدة الدرس</label>
+                            <label for="user_level" class="form-label">مستوى الطالب</label>
+                            <select class="form-control" id="user_level" name="user_level" required>
+                                <option value="0">جيد</option>
+                                <option value="1">جيد جدا</option>
+                                <option value="2">ممتاز</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="duty_text" class="form-label">نص الواجب </label>
+                            <textarea class="form-control" id="duty_text" rows="5" name="duty_text" required></textarea>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="duty_image" class="form-label">صورة الواجب </label>
+                            <input class="form-control" type="file" id="duty_image" name="duty_image" required></input>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="lesson_duration" class="form-label">مدة التقرير</label>
                             <select class="form-control" name="lesson_duration" required>
                                 <option value=".5">30 دقيقه</option>
+                                <option value=".66">40 دقيقه</option>
                                 <option value=".75">45 دقيقه</option>
                                 <option value="1">1 ساعة</option>
                                 <option value="1.25">ساعة وربع</option>

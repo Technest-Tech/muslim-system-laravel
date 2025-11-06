@@ -31,6 +31,7 @@ class TeachersController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed',
             'students' => 'required|array',
+            'hour_price' => 'required',
         ]);
 
         $data['user_type'] = User::USER_TYPE['teacher'];
@@ -62,9 +63,10 @@ class TeachersController extends Controller
         $data = $request->validate([
             'user_name' => 'required',
             'email' => 'required|email',
+            'hour_price' => 'required',
         ]);
         $user = User::find($id);
-        $user->update(['user_name' => $data['user_name'], 'email' => $data['email']]);
+        $user->update(['user_name' => $data['user_name'],'hour_price' => $data['hour_price'], 'email' => $data['email']]);
         return redirect()->route('teachers.index');
     }
 
@@ -134,20 +136,34 @@ class TeachersController extends Controller
         return view('admin.teachers.lessons', compact('lessons','month','course_id'));
     }
 
-    public function storeTeacherCourseLessons(Request $request,$month,$course_id)
+    public function storeTeacherCourseLessons(Request $request, $month, $course_id)
     {
         $data = $request->validate([
             'lesson_name' => 'required',
             'lesson_date' => 'required',
             'lesson_duration' => 'required',
+            'user_level' => 'required',
+            'duty_text' => 'required',
+            'duty_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate the image
         ]);
+
         $course = Courses::find($course_id);
         $data['course_id'] = $course_id;
         $data['teacher_id'] = $course->teacher_id;
         $data['student_id'] = $course->student_id;
+
+        // Handle the image upload
+        if ($request->hasFile('duty_image')) {
+            $image = $request->file('duty_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/duty_images'), $imageName);
+            $data['duty_image'] = 'images/duty_images/' . $imageName;
+        }
+
         $lesson = \App\Models\Lessons::create($data);
-        $this->createBilling($lesson,$data['teacher_id'],$data['student_id']);
-        return redirect()->route('teacher.course.lessons',[$month,$course_id]);
+
+        $this->createBilling($lesson, $data['teacher_id'], $data['student_id']);
+        return redirect()->route('teacher.course.lessons', [$month, $course_id]);
     }
 
     public function createBilling($lesson,$teacher_id,$student_id)

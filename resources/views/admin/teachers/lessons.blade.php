@@ -9,11 +9,11 @@
             <div class="col-6">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#addCourseModal">
-                    <i class="fas fa-plus-square me-3"></i>اضافة درس
+                    <i class="fas fa-plus-square me-3"></i>اضافة تقرير
                 </button>
             </div>
             <div class="col-6 mb-3">
-                <h1 class="h3 mb-2 mb-sm-0 text-end">الدروس</h1>
+                <h1 class="h3 mb-2 mb-sm-0 text-end">التقارير</h1>
             </div>
 
         </div>
@@ -46,24 +46,41 @@
                                 اسم الطالب :
                                 {{$lesson->student->user_name}}
                             </p>
-                            <p class="card-text">اسم الدورة :
+                            <p class="card-text">اسم الحصة :
                                 {{$lesson->course->course_name}}
                             </p>
-                            <p class="card-text">تاريخ الدرس :
+                            <p class="card-text">تاريخ التقرير :
                                 {{ date('d-m-Y', strtotime($lesson->lesson_date)) }}
                             </p>
                             <p class="card-text">
-                                مدة الدرس :
+                                مدة التقرير :
                                 {{$lesson->lesson_duration}}
                                 ساعة
                             </p>
-                            <a href="#" class="btn btn-danger deleteButton" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-url="{{route('delete.teacher.course.lesson',['id'=>$lesson->id,'month'=>$month])}}"> حذف !!!!</a><br>                            <!-- Edit Lesson Button -->
-{{--                            <!-- Edit Lesson Button -->--}}
-{{--                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editLessonModal" data-lesson='{"id": {{$lesson->id}}, "name": "{{$lesson->lesson_name}}", "date": "{{ date('Y-m-d', strtotime($lesson->lesson_date)) }}", "duration": "{{$lesson->lesson_duration}}"}'>تعديل</button>--}}
-{{--                            <!-- Edit Lesson Modal -->--}}
+                            <p>رابط الواجب بالاسفل</p>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="dutyLink{{$lesson->id}}" value="{{ route('student-duty',$lesson->id) }}" readonly>
+                                <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard('dutyLink{{$lesson->id}}')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <a href="https://wa.me/{{$lesson->student->whatsapp_number}}?text= الواجب الخاص بكم في الرابط بالأسفل {{ urlencode(route('student-duty', ['lesson_id' => $lesson->id])) }}" target="_blank" class="btn btn-outline-success">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                            <a href="#" class="btn btn-danger deleteButton" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-url="{{route('delete.teacher.course.lesson',['id'=>$lesson->id,'month'=>$month])}}"> حذف !!!!</a><br>
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    function copyToClipboard(elementId) {
+                        var copyText = document.getElementById(elementId);
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999); // For mobile devices
+                        document.execCommand("copy");
+                        alert("Copied the text: " + copyText.value);
+                    }
+                </script>
             @endforeach
         </div>
 
@@ -105,15 +122,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addCourseModalLabel">اضافه درس</h5>
+                    <h5 class="modal-title" id="addCourseModalLabel">اضافه تقرير</h5>
                 </div>
-                <form action="{{route('teacher.course.lessons.store',['month'=>$month,'course_id'=>$course_id])}}" method="post">
+                <form action="{{route('teacher.course.lessons.store',['month'=>$month,'course_id'=>$course_id])}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
 
                         <div class="mb-3">
-                            <label for="lesson_name" class="form-label">اسم الدرس</label>
-                            <input type="text" class="form-control" id="lesson_name" name="lesson_name" required>
+                            <label for="lesson_name" class="form-label">اسم التقرير</label>
+                            <textarea class="form-control" id="lesson_name" rows="5" name="lesson_name" required></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -122,9 +139,31 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="lesson_duration" class="form-label">مدة الدرس</label>
+                            <label for="user_level" class="form-label">مستوى الطالب</label>
+                            <select class="form-control" id="user_level" name="user_level" required>
+                                <option value="0">جيد</option>
+                                <option value="1">جيد جدا</option>
+                                <option value="2">ممتاز</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="duty_text" class="form-label">نص الواجب </label>
+                            <textarea class="form-control" id="duty_text" rows="5" name="duty_text" required></textarea>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="duty_image" class="form-label">صورة الواجب </label>
+                            <input class="form-control" type="file" id="duty_image" name="duty_image" required></input>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="lesson_duration" class="form-label">مدة التقرير</label>
                             <select class="form-control" name="lesson_duration" required>
                                 <option value=".5">30 دقيقه</option>
+                                <option value=".66">40 دقيقه</option>
                                 <option value=".75">45 دقيقه</option>
                                 <option value="1">1 ساعة</option>
                                 <option value="1.25">ساعة وربع</option>
@@ -150,14 +189,14 @@
 {{--        <div class="modal-dialog">--}}
 {{--            <div class="modal-content">--}}
 {{--                <div class="modal-header">--}}
-{{--                    <h5 class="modal-title" id="editLessonModalLabel{{$lesson->id}}">تعديل الدرس</h5>--}}
+{{--                    <h5 class="modal-title" id="editLessonModalLabel{{$lesson->id}}">تعديل التقرير</h5>--}}
 {{--                </div>--}}
 {{--                <form action="{{route('edit.teacher.course.lesson', $lesson->id)}}" method="post">--}}
 {{--                    @csrf--}}
 {{--                    @method('PUT')--}}
 {{--                    <div class="modal-body">--}}
 {{--                        <div class="mb-3">--}}
-{{--                            <label for="lesson_name" class="form-label">اسم الدرس</label>--}}
+{{--                            <label for="lesson_name" class="form-label">اسم التقرير</label>--}}
 {{--                            <input type="text" class="form-control" id="lesson_name" name="lesson_name" value="{{$lesson->lesson_name}}" required>--}}
 {{--                        </div>--}}
 {{--                        <div class="mb-3">--}}
@@ -165,7 +204,7 @@
 {{--                            <input type="date" class="form-control" id="lesson_date" name="lesson_date" value="{{ date('Y-m-d', strtotime($lesson->lesson_date)) }}" required>--}}
 {{--                        </div>--}}
 {{--                        <div class="mb-3">--}}
-{{--                            <label for="lesson_duration" class="form-label">مدة الدرس</label>--}}
+{{--                            <label for="lesson_duration" class="form-label">مدة التقرير</label>--}}
 {{--                            <input type="text" class="form-control" id="lesson_duration" name="lesson_duration" value="{{$lesson->lesson_duration}}" required>--}}
 {{--                        </div>--}}
 {{--                    </div>--}}

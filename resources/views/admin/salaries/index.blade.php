@@ -65,19 +65,19 @@
             <div class="row justify-content-center">
 
             </div>
-            <form action="{{route('salaries.amount',['month'=>$month])}}">
-                @csrf
-                <div class="row m-3" style="direction: rtl">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <input type="number" name="amount" class="form-control" placeholder=" سعر الساعة">
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <button type="submit" class="btn btn-primary">حساب المرتب</button>
-                    </div>
-                </div>
-            </form>
+{{--            <form action="{{route('salaries.amount',['month'=>$month])}}">--}}
+{{--                @csrf--}}
+{{--                <div class="row m-3" style="direction: rtl">--}}
+{{--                    <div class="col-6">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <input type="number" name="amount" class="form-control" placeholder=" سعر الساعة">--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-2">--}}
+{{--                        <button type="submit" class="btn btn-primary">حساب المرتب</button>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </form>--}}
 
             <div>
                 <table class="table table-striped">
@@ -95,10 +95,10 @@
                         @endphp
                         <tr>
                             <td class="text-center">
-                                {{ isset($amount) ? $amount * $salary->total_hours .' '. 'جنيه' : 'حدد سعر الساعة' }}
+                                {{ $salary->total_hours * $teacher->hour_price }} جنيه
                             </td>
                             <td class="text-center"> {{$salary->total_hours}} ساعة</td>
-                            <td class="text-center">{{$teacher->user_name ?? ''}}</td>
+                            <td class="text-center">{{$teacher->user_name}}</td>
                         </tr>
                     @endforeach
                     </tbody>
