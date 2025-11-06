@@ -85,6 +85,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('admin/calendar', [\App\Http\Controllers\Admin\Calendar\CalendarController::class,'index'])->name('admin.calendar.index');
         Route::get('admin/calendar/delete/{id}', [\App\Http\Controllers\Admin\Calendar\CalendarController::class,'destroy'])->where('id', '.*')->name('admin.calendar.delete');
         Route::get('admin/calendar/export', [\App\Http\Controllers\Admin\Calendar\CalendarController::class,'export'])->name('admin.calendar.export');
+        
+        // Calendar API routes - moved from api.php to web.php for session support
+        Route::get('api/calendar/events', [\App\Http\Controllers\Admin\Calendar\CalendarController::class,'events'])->name('admin.calendar.events');
+        Route::post('api/calendar/lessons', [\App\Http\Controllers\Admin\Calendar\CalendarController::class,'store'])->name('admin.calendar.store');
+        Route::delete('api/calendar/lessons/delete', [\App\Http\Controllers\Admin\Calendar\CalendarController::class,'destroy'])->name('admin.calendar.destroy');
+        Route::put('api/calendar/lessons/{id}', [\App\Http\Controllers\Admin\Calendar\CalendarController::class,'update'])->where('id', '.*')->name('admin.calendar.update');
+        Route::get('api/calendar/lessons/{id}', [\App\Http\Controllers\Admin\Calendar\CalendarController::class,'show'])->where('id', '.*')->name('admin.calendar.show');
     });
 
     //teacher calendar (read-only)
